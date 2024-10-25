@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
 export default function Home() {
-  return <header></header>;
+  redirect("/signin");
+  return <div>hello</div>;
 }
