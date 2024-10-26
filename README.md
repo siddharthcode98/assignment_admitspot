@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Admitspot Assignment
+
+I have successfully completed admitspot assignment.I would like to thank admitspot team and nxtwave for giving me this opportunity. Through this assignment,I have improved my skills in building robust web application with technologies like `NEXTJS`,`TailwindCSS` and `PostgresSQL`.
+
+## Features
+
+- Implemented `User Authentication` functionality using `JWT token`.
+- `Create`.`Update`,`Read` and `Delete`(soft delete) functionality implemented.
+- `Timezone` of the user is saved in `UTC`.When Retrieved it will shown in `localtime`.
+- `User` can add a `.xlsx,.xlsb and .csv` files to upload batch contacts.
+- Data Validation is implemented using `yup` package. validated the `name`,`address`,`email`,`password` and `date of creation ofthe contact`
+- User can `download` files in `.xlsx` format.
+- Additionally, logout functionality is also implemented and the application is made responsive,
+
+## Tech
+
+- [NextJS](https://nextjs.org/) - A react Framwork to build server side applications
+- [TailwindCSS](https://tailwindui.com/) - a CSS (Cascading Style Sheets) framework that provides utility classes to design web pages
+- [PostgreSQL](https://www.postgresql.org/) - An Open Source relational Database.
 
 ## Getting Started
 
-First, run the development server:
+You can clone repo from github into you local Machine
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```sh
+Git Clone <Repository>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Once Completed you can
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```sh
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+and open [http://localhost:3000]() with your browser to see the result.
 
-## Learn More
+## ER Diagram
 
-To learn more about Next.js, take a look at the following resources:
+[ER_Diagram](/public/ER%20Diagram.jpeg)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
