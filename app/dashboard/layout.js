@@ -5,8 +5,14 @@ import {
   DisclosureButton,
   DisclosurePanel,
 } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  XMarkIcon,
+  ArrowRightIcon,
+} from "@heroicons/react/24/outline";
+import Cookies from "js-cookie";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", current: false },
@@ -19,6 +25,12 @@ function classNames(...classes) {
 }
 
 export default function Layout({ children }) {
+  const router = useRouter();
+  const handleLogout = () => {
+    Cookies.remove("jwtToken");
+    router.push("/signin");
+  };
+
   return (
     <div className="min-h-full">
       <Disclosure as="nav" className="bg-indigo-600">
@@ -45,7 +57,15 @@ export default function Layout({ children }) {
                 </div>
               </div>
             </div>
-
+            <div>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className=" flex justify-center rounded-md px-3 py-2 text-sm font-medium  bg-indigo-700 text-white"
+              >
+                Logout&#8594;
+              </button>
+            </div>
             <div className="-mr-2 flex md:hidden">
               <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md bg-indigo-600 p-2 text-indigo-200 hover:bg-indigo-500 hover:bg-opacity-75 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600">
                 <span className="absolute -inset-0.5" />
