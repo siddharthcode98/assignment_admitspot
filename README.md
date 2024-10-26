@@ -36,7 +36,7 @@ and open [http://localhost:3000]() with your browser to see the result.
 
 ## ER Diagram
 
-[ER_Diagram](/public/ER%20Diagram.jpeg)
+![ER_Diagram](/public/ER%20Diagram.jpeg)
 
 
 
