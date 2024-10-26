@@ -8,7 +8,8 @@ export async function POST(req) {
     if (!isUserValid) {
       return NextResponse.json(authError, { status: 401 });
     }
-    const { valid, body, error } = await validation(req);
+    const body = await req.json();
+    const { valid, verfiedBody, error } = await validation(body);
     if (!valid) {
       return NextResponse.json(error.message, { status: 400 });
     } else {
@@ -18,7 +19,7 @@ export async function POST(req) {
         contactPhoneNumber,
         contactAddress,
         createdDate,
-      } = body;
+      } = verfiedBody;
       await sql`INSERT INTO 
           contacts(contact_name,contact_email,contact_phone,contact_address,contact_timezone) 
           VALUES(${contactName},${contactEmailAddress},${contactPhoneNumber},${contactAddress},${createdDate});`;

@@ -11,11 +11,11 @@ const contactSchema = object({
   createdDate: string().required(),
 });
 
-const validation = async (req) => {
-  const body = await req.json();
+const validation = async (body) => {
+  console.log(body);
   try {
     await contactSchema.validate(body);
-    return { valid: true, body };
+    return { valid: true, verfiedBody: body };
   } catch (error) {
     return { valid: false, error };
   }

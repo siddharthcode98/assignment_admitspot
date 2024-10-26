@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 export default function SignInForm() {
   const [email, setEmail] = useState("");
@@ -47,6 +47,12 @@ export default function SignInForm() {
   const handleSignUp = () => {
     router.push("/signup");
   };
+
+  const token = Cookies.get("jwtToken");
+  if (token !== undefined) {
+    redirect("/dashboard");
+  }
+
   return (
     <div className="flex h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 ">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">

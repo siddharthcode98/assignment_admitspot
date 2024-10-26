@@ -3,6 +3,7 @@
 import { ArrowUpOnSquareIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { read, utils, writeFile } from "xlsx";
+import Cookies from "js-cookie";
 
 export default function UploadDocument() {
   const [fileTypeError, setFileTypeError] = useState("Please select a file");
@@ -17,7 +18,7 @@ export default function UploadDocument() {
       "application/vnd.ms-excel",
     ];
     let selectedFile = e.target.files[0];
-    console.log(selectedFile);
+    // console.log(selectedFile);
     if (selectedFile) {
       if (selectedFile && fileTypes.includes(selectedFile.type)) {
         setFileTypeError(`${selectedFile.name} is uploaded`);
@@ -32,26 +33,53 @@ export default function UploadDocument() {
         );
         setFile(null);
       }
-      console.log(selectedFile.type);
-    } else {
-      console.log("please upload a file");
     }
   };
-  const handleClick = () => {
+  const handleClick = async () => {
     if (file !== null) {
       const workbook = read(file, { type: "buffer" });
       const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-      const data = utils.sheet_to_json(worksheet);
-      
-      
-      
+      const batchData = utils.sheet_to_json(worksheet);
+
+      const batchDataWithData = batchData.map((contact) => {
+        const date = new Date();
+        const dateUTC = Date.UTC(
+          date.getUTCFullYear(),
+          date.getUTCMonth(),
+          date.getUTCDate(),
+          date.getUTCHours(),
+          date.getUTCMinutes(),
+          date.getUTCSeconds()
+        );
+        return {
+          contactName: contact.name,
+          contactEmailAddress: contact.email,
+          contactPhoneNumber: contact.phone,
+          contactAddress: contact.address,
+          createdDate: new Date(dateUTC).toISOString(),
+        };
+      });
+
+      const token = Cookies.get("jwtToken");
+      //console.log(token);
+      const options = {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(batchDataWithData),
+      };
+      const req = await fetch("/api/contacts/upload", options);
+      const data = await req.json();
+      console.log(data);
       setReadFile(data);
       setSave(true);
       setFileTypeError("");
     }
   };
 
-  console.log(readFile);
+  // console.log(readFile);
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="col-span-3 px-10">
@@ -84,7 +112,7 @@ export default function UploadDocument() {
           onClick={handleClick}
           className="inline-flex mt-4 justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-          Display
+          upload
         </button>
         {isSaved ? (
           <table className="min-w-full divide-y divide-gray-300">
@@ -132,16 +160,19 @@ export default function UploadDocument() {
                 return (
                   <tr key={index}>
                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                      {contact.name}
+                      {contact.contactName}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {contact.email}
+                      {contact.contactEmailAddress}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {contact.phone}
+                      {contact.contactPhoneNumber}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {contact.address}
+                      {contact.contactAddress}
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                      {contact.createdDate}
                     </td>
                   </tr>
                 );

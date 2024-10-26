@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 export default function SignUpForm() {
   const [name, setName] = useState("");
@@ -46,6 +47,12 @@ export default function SignUpForm() {
       console.log(error);
     }
   };
+  let token = Cookies.get("jwtToken");
+
+  if (token !== undefined) {
+    redirect("/dashboard");
+  }
+
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
